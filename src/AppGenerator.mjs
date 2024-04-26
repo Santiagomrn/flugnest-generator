@@ -71,7 +71,6 @@ v${pjson.version}
         message: "Database name:",
         initial: this.appName,
         skip: function () {
-          console.log(this.enquirer.answers.dbType);
           return this.enquirer.answers.dbType == "sqlite";
         },
       },
@@ -141,6 +140,7 @@ v${pjson.version}
 For instructions on how to get started, please see README.md
 Run it with: \n
 ${chalk.blue("cd "+this.appName)}
+${chalk.blue("npm run test")}
 ${chalk.blue("npm run start:dev")}
     `;
       const msg = boxen(content, { padding: 1, borderStyle: "round" });

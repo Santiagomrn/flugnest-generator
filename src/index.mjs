@@ -8,7 +8,6 @@ async function main() {
     .command('app')
     .argument('<projectName>','name of the project')
     .action((projectName,options)=>{
-        console.log(projectName,options)
         new AppGenerator(projectName).run()
     })
     await program.parseAsync(process.argv);
