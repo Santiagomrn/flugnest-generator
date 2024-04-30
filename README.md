@@ -16,6 +16,7 @@ npm install -g flugnest-generator
 # Usage
 Flugnest-generator is ready to use since is globally installed:
 
+To generate an app run.
 ```bash
 flugnest app [name of your app]
 ```
@@ -23,6 +24,16 @@ flugnest app [name of your app]
 <br>
 <br>
 <img src="./src/docs/generator.png" alt="generator" width="650" style="aligment:center">
+</p>
+
+To generate a module run in the root of your app.
+```bash
+flugnest module [name of your module]
+```
+<p align="center">
+<br>
+<br>
+<img src="./src/docs/moduleGenerator.png" alt="generator" width="650" style="aligment:center">
 </p>
 
 # App
