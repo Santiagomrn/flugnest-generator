@@ -2,6 +2,7 @@
 import _ from "lodash";
 import { AppGenerator } from "./AppGenerator.mjs";
 import { program } from "commander" ;
+import { ModuleGenerator } from "./ModuleGenerator.mjs";
 
 async function main() {
     program
@@ -10,6 +11,16 @@ async function main() {
     .action((projectName,options)=>{
         new AppGenerator(projectName).run()
     })
+
+    program
+    .command('module')
+    .argument('<moduleName>', 'name of the module')
+    .action((moduleName,options)=>{
+        new ModuleGenerator(moduleName).run()
+    })
+
+
+
     await program.parseAsync(process.argv);
 }
 main();
