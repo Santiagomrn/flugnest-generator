@@ -1,12 +1,12 @@
-export const generatePackageJson=(data)=>{
-const { name, author, dbType, dbname}= data
-const dbTypes={
-  ['postgres']:'"pg": "^8.11.3",',
-  ['mssql']:'"tedious": "^6.7.1",',
-  ['mysql']:`"mysql2": "^1.6.1",`,
-  ['sqlite']:""
-}
-const template=`{
+export const generatePackageJson = (data) => {
+  const { name, author, dbType, dbname } = data;
+  const dbTypes = {
+    ["postgres"]: '"pg": "^8.11.3",',
+    ["mssql"]: '"tedious": "^6.7.1",',
+    ["mysql"]: `"mysql2": "^1.6.1",`,
+    ["sqlite"]: "",
+  };
+  const template = `{
   "name": "${name}",
   "version": "0.0.1",
   "description": "",
@@ -57,7 +57,7 @@ const template=`{
     "date-fns": "^3.2.0",
     "deep-diff": "^1.0.2",
     "dotenv": "^16.3.1",
-    "ejs": "^3.1.9",
+    "ejs": "^3.1.10",
     "express-basic-auth": "^1.2.1",
     "helmet": "^7.1.0",
     "ip": "^2.0.1",
@@ -106,7 +106,6 @@ const template=`{
   "bin": {
     "flug-nest": "./src/libraries/cli/index.js"
   }
-}`
-return template
-}
-
+}`;
+  return template;
+};
