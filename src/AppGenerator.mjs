@@ -107,6 +107,7 @@ export class AppGenerator extends Generator {
   }
   async copyIndex(data) {
     const template = generateIndex(data);
+    await fs.mkdir(path.resolve(this.destinationPath + "/src/config"));
     await this.saveFile(this.destinationPath, "src/config/index.ts", template);
   }
 
