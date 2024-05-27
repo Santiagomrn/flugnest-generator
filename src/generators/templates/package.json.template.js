@@ -2,8 +2,8 @@ export const generatePackageJson = (data) => {
   const { name, author, dbType, dbname } = data;
   const dbTypes = {
     ["postgres"]: '"pg": "^8.11.3",',
-    ["mssql"]: '"tedious": "^6.7.1",',
-    ["mysql"]: `"mysql2": "^1.6.1",`,
+    ["mssql"]: '"tedious": "^18.2.0",',
+    ["mysql"]: `"mysql2": "^2.3.3",`,
     ["sqlite"]: "",
   };
   const template = `{

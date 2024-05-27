@@ -1,11 +1,17 @@
-export const generateIndex=(data)=>{
-  const { name, author, dbType, dbname}= data
-  const dbUsers={
-    ['postgres']:'postgres',
-    ['mssql']:'sa',
-    ['mysql']:`root`,
-    ['sqlite']:'root'
-  }
+export const generateIndex = (data) => {
+  const { name, author, dbType, dbname } = data;
+  const dbUsers = {
+    ["postgres"]: "postgres",
+    ["mssql"]: "sa",
+    ["mysql"]: `root`,
+    ["sqlite"]: "root",
+  };
+  const dbPass = {
+    ["postgres"]: "postgres",
+    ["mssql"]: "passw0rd",
+    ["mysql"]: `root`,
+    ["sqlite"]: "root",
+  };
   const template = `import * as dotenv from 'dotenv';
   import { Dialect } from 'sequelize/types';
   import path from 'path';
@@ -114,7 +120,7 @@ export const generateIndex=(data)=>{
     db: {
       database: process.env.DB_NAME || '${dbname}',
       username: process.env.DB_USER || '${dbUsers[dbType]}',
-      password: process.env.DB_PASSWORD || 'root',
+      password: process.env.DB_PASSWORD || ${dbPass[dbType]},
       host: process.env.DB_HOST || 'localhost',
       dialect: (process.env.DB_TYPE || '${dbType}') as Dialect,
       storage: null,
@@ -154,7 +160,6 @@ export const generateIndex=(data)=>{
       __dirname,
       '../../src/core/database/database.sqlite',
     );
-  }`
-  return template
-}
-
+  }`;
+  return template;
+};
