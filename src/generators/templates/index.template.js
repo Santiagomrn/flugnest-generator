@@ -120,7 +120,7 @@ export const generateIndex = (data) => {
     db: {
       database: process.env.DB_NAME || '${dbname}',
       username: process.env.DB_USER || '${dbUsers[dbType]}',
-      password: process.env.DB_PASSWORD || ${dbPass[dbType]},
+      password: process.env.DB_PASSWORD || '${dbPass[dbType]}',
       host: process.env.DB_HOST || 'localhost',
       dialect: (process.env.DB_TYPE || '${dbType}') as Dialect,
       storage: null,

@@ -34,12 +34,13 @@ export const generatePackageJson = (data) => {
     "live:seed": "node dist/core/database/seed.js",
     "live:migrate": " node dist/libraries/migrations/migrate.js",
     "docker:local": "docker-compose -f docker-compose.yml up --build",
-    "flug-nest": "node ./src/libraries/cli/index.js"
+    "commit": "commit"
   },
   "dependencies": {
+    "@azure/service-bus": "^7.9.4",
     "@faker-js/faker": "^8.4.1",
-    "@nestjs/common": "^10.0.0",
-    "@nestjs/core": "10.0.0",
+    "@nestjs/common": "^10.0.4",
+    "@nestjs/core": "^10.0.0",
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^10.0.3",
@@ -62,25 +63,29 @@ export const generatePackageJson = (data) => {
     "helmet": "^7.1.0",
     "morgan": "^1.10.0",
     "nest-winston": "^1.9.4",
+    "nestjs-azure-service-bus-transporter": "^1.0.0",
     "nodemailer": "^6.9.11",
     "object-hash": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
-    "sqlite3": "^5.1.7",
     ${dbTypes[dbType]}
     "prettier": "^3.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "sequelize": "^6.35.2",
     "sequelize-typescript": "^2.1.6",
+    "sqlite3": "^5.1.7",
     "umzug": "^3.5.0",
     "uuid": "^8.2.0",
     "winston": "^3.11.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@commitlint/prompt-cli": "^19.3.1",
     "@golevelup/ts-jest": "^0.4.0",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
-    "@nestjs/testing": "10.0.0",
+    "@nestjs/testing": "^10.0.0",
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.2",
     "@types/node": "^20.3.1",
@@ -93,7 +98,7 @@ export const generatePackageJson = (data) => {
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "jest": "^29.5.0",
+    "jest": "^29.7.0",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
     "ts-jest": "^29.1.0",
@@ -102,9 +107,6 @@ export const generatePackageJson = (data) => {
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.1.3"
   },
-  "bin": {
-    "flug-nest": "./src/libraries/cli/index.js"
-  }
 }`;
   return template;
 };
