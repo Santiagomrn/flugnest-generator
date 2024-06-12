@@ -13,7 +13,7 @@ export const generateIndex = (data) => {
     ["sqlite"]: "root",
   };
   const template = `import * as dotenv from 'dotenv';
-  import { Dialect } from 'sequelize/types';
+  import { Dialect } from 'sequelize';
   import path from 'path';
   dotenv.config();
   export const config = {
