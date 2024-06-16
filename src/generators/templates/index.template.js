@@ -1,5 +1,5 @@
 export const generateIndex = (data) => {
-  const { name, author, dbType, dbname } = data;
+  const { name, author, dbType, dbname, serviceBus } = data;
   const dbUsers = {
     ["postgres"]: "postgres",
     ["mssql"]: "sa",
@@ -12,6 +12,19 @@ export const generateIndex = (data) => {
     ["mysql"]: `root`,
     ["sqlite"]: "root",
   };
+  const serviceBusEnv = `    azure: {
+      serviceBus: {
+        connectionString: process.env.AZURE_SERVICEBUS_CONNECTION_STRING || '',
+        queueExample: {
+          name: process.env.AZURE_SERVICEBUS_QUEUEEXAMPLE_NAME || '',
+        },
+        topicExample: {
+          name: process.env.AZURE_SERVICEBUS_TOPICEXAMPLE_NAME || '',
+          subscription:
+            process.env.AZURE_SERVICEBUS_TOPICEXAMPLE_SUBSCRIPTION || '', //this is only required for receiver/client
+        },
+      },
+    },`;
   const template = `import * as dotenv from 'dotenv';
   import { Dialect } from 'sequelize';
   import path from 'path';
@@ -127,18 +140,7 @@ export const generateIndex = (data) => {
       logging: false,
       timezone: 'utc', // IMPORTANT For correct timezone management with DB.
     },
-    azure: {
-      serviceBus: {
-        connectionString: process.env.AZURE_SERVICEBUS_CONNECTION_STRING || '',
-        queueExample: {
-          name: process.env.AZURE_SERVICEBUS_QUEUEEXAMPLE_NAME || '',
-        },
-        topicExample: {
-          name: process.env.AZURE_SERVICEBUS_EXAMPLE_TOPICNAME || '',
-          subscription: process.env.AZURE_SERVICEBUS_TOPICEXAMPLE_NAME || '', //this is only required for receiver/client
-        },
-      },
-    },
+${serviceBus ? serviceBusEnv : ""}
     auth: {
       google: {
         clientId: process.env.GOOGLE_CLIENT_ID || 'use your own credentials',

@@ -1,13 +1,12 @@
-
-export const generateEnvExample=(data)=>{
-    const { name, author, dbType, dbname}= data
-    const dbUsers={
-        ['postgres']:'postgres',
-        ['mssql']:'sa',
-        ['mysql']:`root`,
-        ['sqlite']:'root'
-      }
-    const template =`# APP
+export const generateEnvExample = (data) => {
+  const { name, author, dbType, dbname, serviceBus } = data;
+  const dbUsers = {
+    ["postgres"]: "postgres",
+    ["mssql"]: "sa",
+    ["mysql"]: `root`,
+    ["sqlite"]: "root",
+  };
+  const template = `# APP
 APP_NAME="${name}"
 SERVER_PORT="3000"
 env="development"
@@ -58,6 +57,18 @@ TEST_DB_USER='root'
 TEST_DB_PASSWORD='root'
 TEST_DB_HOST='localhost'
 TEST_DB_TYPE='sqlite'
-`
-return template
+${
+  serviceBus
+    ? `#AZURE
+AZURE_SERVICEBUS_CONNECTION_STRING=Endpoint="sb://<Name>.servicebus.windows.net/;SharedAccessKeyName=<SharedAccessKeyName>;SharedAccessKey=<SharedAccessKey>"
+#queue
+AZURE_SERVICEBUS_QUEUEEXAMPLE_NAME="sample-queue"
+#topic
+AZURE_SERVICEBUS_TOPICEXAMPLE_NAME="sample-topic"
+AZURE_SERVICEBUS_TOPICEXAMPLE_SUBSCRIPTION="sample-subscription"`
+    : ""
 }
+
+`;
+  return template;
+};

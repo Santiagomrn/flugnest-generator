@@ -1,5 +1,5 @@
 export const generatePackageJson = (data) => {
-  const { name, author, dbType, dbname } = data;
+  const { name, author, dbType, dbname, serviceBus } = data;
   const dbTypes = {
     ["postgres"]: '"pg": "^8.11.3",',
     ["mssql"]: '"tedious": "^18.2.0",',
@@ -63,7 +63,7 @@ export const generatePackageJson = (data) => {
     "helmet": "^7.1.0",
     "morgan": "^1.10.0",
     "nest-winston": "^1.9.4",
-    "nestjs-azure-service-bus-transporter": "^1.0.0",
+    ${serviceBus ? '"nestjs-azure-service-bus-transporter": "^1.0.0",' : ""}
     "nodemailer": "^6.9.11",
     "object-hash": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
@@ -106,7 +106,7 @@ export const generatePackageJson = (data) => {
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.1.3"
-  },
+  }
 }`;
   return template;
 };

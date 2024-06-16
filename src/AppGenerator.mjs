@@ -14,6 +14,8 @@ import boxen from "boxen";
 import { Generator } from "./Generator.mjs";
 import ora from "ora";
 import promiseSpawn from "@npmcli/promise-spawn";
+import { generateAppModule } from "./generators/templates/app.module.template.js";
+import { generateMain } from "./generators/templates/main.template.js";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -62,6 +64,12 @@ export class AppGenerator extends Generator {
           return this.enquirer.answers.dbType == "sqlite";
         },
       },
+      {
+        type: "confirm",
+        name: "serviceBus",
+        message: "Include Azure Service Bus Module?:",
+        initial: false,
+      },
     ];
   }
   async run() {
@@ -76,11 +84,16 @@ export class AppGenerator extends Generator {
       await fs.mkdir(path.resolve(this.destinationPath));
 
       await this.copyResources(this.originPath, this.destinationPath);
+      if (responses.serviceBus == true) {
+        await this.copyQueueModule();
+      }
       await Promise.all([
         this.copyPackageJson(responses),
         this.copyEnvExample(responses),
         this.copyDockerCompose(responses),
         this.copyIndex(responses),
+        this.copyAppModule(responses),
+        this.copyMain(responses),
       ]);
       await this.install();
       await this.end();
@@ -88,7 +101,11 @@ export class AppGenerator extends Generator {
       console.error(error);
     }
   }
-
+  async copyQueueModule() {
+    const queueModuleDestinationPath = this.destinationPath + "/src/modules/queue";
+    await fs.mkdir(path.resolve(queueModuleDestinationPath));
+    await this.copyResources(__dirname + "/generators/queueModule", queueModuleDestinationPath);
+  }
   async copyPackageJson(data) {
     const template = generatePackageJson(data);
     await this.saveFile(this.destinationPath, "package.json", template);
@@ -107,8 +124,18 @@ export class AppGenerator extends Generator {
   }
   async copyIndex(data) {
     const template = generateIndex(data);
-    await fs.mkdir(path.resolve(this.destinationPath + "/src/config"));
+    try {
+      await fs.mkdir(path.resolve(this.destinationPath + "/src/config"));
+    } catch (e) {}
     await this.saveFile(this.destinationPath, "src/config/index.ts", template);
+  }
+  async copyAppModule(data) {
+    const template = generateAppModule(data);
+    await this.saveFile(this.destinationPath, "src/app.module.ts", template);
+  }
+  async copyMain(data) {
+    const template = generateMain(data);
+    await this.saveFile(this.destinationPath, "src/main.ts", template);
   }
 
   async end() {
