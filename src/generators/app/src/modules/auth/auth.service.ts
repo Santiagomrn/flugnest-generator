@@ -22,6 +22,8 @@ import { ROLES } from '@modules/role/enums/roles.enum';
 import { CreateUserDto } from '@modules/user/dto/create-user.dto';
 import { UserResponseDto } from '@modules/user/dto/user-response.dto';
 import { MailingService } from '@modules/email/email.service';
+import { TokenDto } from './dto/token.dto';
+import { Role } from '@modules/role/entities/role.entity';
 export interface Token {
   token: string;
   expires: number;
@@ -53,7 +55,6 @@ export class AuthService {
     private emailService: MailingService,
   ) {}
   public async signIn(singInDto: SignInDto) {
-    try {
       const user =
         await this.userRepository.findOneByEmailAndIsActiveTrueIncludeRole(
           singInDto.email,
@@ -65,10 +66,14 @@ export class AuthService {
       } else {
         throw new UnauthorizedException();
       }
-    } catch (error) {
-      this.logger.error(error);
-      throw new UnauthorizedException();
-    }
+  }
+  public async refreshToken(refreshTokenDto: TokenDto) {
+    const jwtPayload = this.validateJwt(
+      refreshTokenDto.token,
+      TOKEN_TYPE.REFRESH,
+    );
+    const user = await this.userRepository.findOneById(jwtPayload.id, [Role]);
+    return this.createCredentials(user);
   }
   public async signUp(createUserDto: CreateUserDto) {
     const user = await this.createUser(createUserDto);
