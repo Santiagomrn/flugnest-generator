@@ -25,7 +25,8 @@
     "generator",
     "node",
     "rest",
-    "api"
+    "api",
+    "typescript"
   ],
   "dependencies": {
     "boxen": "^7.1.1",

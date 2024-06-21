@@ -70,6 +70,12 @@ export class AppGenerator extends Generator {
         message: "Include Azure Service Bus Module?:",
         initial: false,
       },
+      {
+        type: "confirm",
+        name: "websocket",
+        message: "Include websocket/socket.io Module?:",
+        initial: false,
+      },
     ];
   }
   async run() {
@@ -86,6 +92,9 @@ export class AppGenerator extends Generator {
       await this.copyResources(this.originPath, this.destinationPath);
       if (responses.serviceBus == true) {
         await this.copyQueueModule();
+      }
+      if (responses.websocket == true) {
+        await this.copyWebsocketModule();
       }
       await Promise.all([
         this.copyPackageJson(responses),
@@ -105,6 +114,14 @@ export class AppGenerator extends Generator {
     const queueModuleDestinationPath = this.destinationPath + "/src/modules/queue";
     await fs.mkdir(path.resolve(queueModuleDestinationPath));
     await this.copyResources(__dirname + "/generators/queueModule", queueModuleDestinationPath);
+  }
+  async copyWebsocketModule() {
+    const websocketModuleDestinationPath = this.destinationPath + "/src/modules/websocket";
+    await fs.mkdir(path.resolve(websocketModuleDestinationPath));
+    await this.copyResources(
+      __dirname + "/generators/websocketModule",
+      websocketModuleDestinationPath,
+    );
   }
   async copyPackageJson(data) {
     const template = generatePackageJson(data);

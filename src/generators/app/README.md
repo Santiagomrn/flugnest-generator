@@ -7,17 +7,55 @@ Flug-Nest is a template for web application development powered by [Sequelize-ty
 
 - [Documentation](./src/docs/Documentation.md)
 
+- [Flugnest generator](https://www.npmjs.com/package/flugnest-generator)
+
+- [Service Bus Module](https://www.npmjs.com/package/nestjs-azure-service-bus-transporter)
+
+- [webSockets Module](https://docs.nestjs.com/websockets/gateways)
+
 - [Build a note app](./src/docs/CreateANoteApi.md)
 
 - [Design pattern implementations in TypeScript](https://github.com/Santiagomrn/design_patterns_in_typescript)
 
 ## Installation
 
+Either through cloning with git or by using [Flugnest generator](https://www.npmjs.com/package/flugnest-generator) (the recommended way)
+
 ```bash
-$ npm install
+npm install -g flugnest-generator
+```
+
+Flugnest-generator is ready to use since is globally installed:
+
+To generate an app run.
+
+```bash
+flugnest app [name of your app]
+```
+
+## CLI Module Generator
+
+To generate a module run in the root of your app.
+
+```bash
+flugnest module [name of your module]
+```
+
+After create your module do not forget to register it into nest app in file `src/app.module.ts`
+
+```ts
+import { BookModule } from './modules/book/book.module';
+
+@Module({
+  imports: [databaseModule, UserModule, BookModule, AuthModule],
+  controllers: [AppController],
+  providers: [AppService],
+})
 ```
 
 ## Running tests
+
+In the root directory run
 
 ```bash
 # unit tests
@@ -33,6 +71,8 @@ $ npm run test:e2e
 
 ## Running the app
 
+In the root directory run
+
 ```bash
 # development
 $ npm run start
@@ -44,116 +84,9 @@ $ npm run start:dev
 
 ## Swagger
 
-By default you can find the swagger docuementation of your app here: http://localhost:3000/swagger
+By default you can find the swagger documentation of your app here: http://localhost:3000/swagger
 or
 If you prefer view the documentation in a json format you can find it here: http://localhost:3000/swagger-json
-
-## CLI (Windows)
-
-Package.json already comes with a command to run the cli tools:
-
-```bash
-npm run flug-nest
-```
-
-Generate a fully module ready to use.
-
-```bash
-npm run flug-nest g api -- --help
-
-> flug-nest@0.0.1 flug-nest
-> node ./src/libraries/cli/index.js g api --help
-
-Usage: index g api [options] <moduleName>
-
-Arguments:
-  moduleName          name of the module
-
-Options:
-  -bU, --belongsUser  module belongs to user
-  -d, --dto           generate dto
-  -e, --entity        generate entity
-  -s, --service       generate service
-  -c, --controller    generate controller
-  -n_s, --no_spec     no generate test files
-  -h, --help          display help for command
-```
-
-### Example
-
-This will create a book module that belongs to the user.
-
-```bash
-npm run flug-nest g api book -- -bU
-```
-
-## CLI (Linux)
-
-Run inside your project folder to install the cli tool:
-
-```bash
-npm i -g
-```
-
-Generate a fully module ready to use.
-
-```bash
-flug-nest g api --help
-
-Usage: flug-nest g api [options] <moduleName>
-
-Arguments:
-  moduleName          name of the module
-
-Options:
-  -bU, --belongsUser  module belongs to user
-  -d, --dto           generate dto
-  -e, --entity        generate entity
-  -s, --service       generate service
-  -c, --controller    generate controller
-  -n_s, --no_spec     no generate test files
-  -h, --help          display help for command
-```
-
-### Example
-
-This will create a book module that belongs to the user.
-
-```bash
-flug-nest g api book -bU
-```
-
-The options are used in case you do not need a complete module.
-
-This will create a the book module but without the controller:
-
-```bash
-flug-nest g api book -s
-```
-
-This will create a the book module but without controller and service files:
-
-```bash
-flug-nest g api book -e
-```
-
-This will create a the book module but only the dto files:
-
-```bash
-flug-nest g api book -d
-```
-
-After create your module do not forget to register it into nest app in file `src/app.module.ts`
-
-```ts
-import { BookModule } from './modules/book/book.module';
-
-@Module({
-  imports: [databaseModule, UserModule, BookModule, AuthModule],
-  controllers: [AppController],
-  providers: [AppService],
-})
-```
 
 ## Models/Entity
 
@@ -308,6 +241,14 @@ export class NoteController {
 
 Please refer to [Nest OpenApi](https://docs.nestjs.com/openapi/introduction)
 
+## Commitlint
+
+This project already has [commitlint](https://commitlint.js.org/) installed, to commit we recommend to use following prompt:
+
+```bash
+$ npm run commit
+```
+
 ## Database
 
 Please update your database access credentials on the .env file in the root of the project if needed.
@@ -317,13 +258,13 @@ SQLite is configured as a database engine by default, to change the database eng
 ### Docker postgres
 
 ```bash
-docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
+$ docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
 ```
 
 ### Autogenerate migrations for changes on DB
 
 ```
-npm run makemigration
+$ npm run makemigration
 ```
 
 **Please Note:** These migrations only create an "up" action, "down" actions need to be created manually if desired.
@@ -333,5 +274,5 @@ Feel free to manually modify the generated migration files in `src/core/database
 ### Execute migrations
 
 ```
-npm run migrate
+$ npm run migrate
 ```

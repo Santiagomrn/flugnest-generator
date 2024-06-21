@@ -1,5 +1,5 @@
 export const generateMain = (data) => {
-  const { name, author, dbType, dbname, serviceBus } = data;
+  const { name, author, dbType, dbname, serviceBus, websocket } = data;
 
   const template = `import { config } from './config';
 import { NestFactory } from '@nestjs/core';
@@ -11,7 +11,7 @@ import helmet from 'helmet';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import expressBasicAuth from 'express-basic-auth';
 import { PaginatedDto } from '@common/dto/paginated.dto';
- ${serviceBus ? "import { AzureServiceBusServer } from 'nestjs-azure-service-bus-transporter';" : ""}
+${serviceBus ? "import { AzureServiceBusServer } from 'nestjs-azure-service-bus-transporter';" : ""}
 
 async function bootstrap() {
   let logger: Logger = new Logger();
@@ -106,7 +106,7 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       transform: true,
-      validateCustomDecorators: true,
+      validateCustomDecorators: true, //https://docs.nestjs.com/custom-decorators
     }),
   );
   

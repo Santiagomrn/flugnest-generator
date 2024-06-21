@@ -1,5 +1,5 @@
 export const generatePackageJson = (data) => {
-  const { name, author, dbType, dbname, serviceBus } = data;
+  const { name, author, dbType, dbname, serviceBus, websocket } = data;
   const dbTypes = {
     ["postgres"]: '"pg": "^8.11.3",',
     ["mssql"]: '"tedious": "^18.2.0",',
@@ -25,7 +25,7 @@ export const generatePackageJson = (data) => {
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./jest-e2e.config.ts",
+    "test:e2e": "jest --config ./jest-e2e.config.ts --verbose",
     "test:e2e:cov": "jest --config ./jest-e2e.config.ts --coverage",
     "test:e2e:watch": "jest --config ./jest-e2e.config.ts --watch",
     "makemigration": "nest build && node --require source-map-support/register dist/libraries/migrations/makemigration.js",
@@ -47,9 +47,8 @@ export const generatePackageJson = (data) => {
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/sequelize": "^10.0.0",
     "@nestjs/swagger": "^7.2.0",
-    "@types/ejs": "^3.1.5",
-    "@types/morgan": "^1.9.9",
-    "@types/nodemailer": "^6.4.14",
+    ${websocket ? '"@nestjs/platform-socket.io": "^10.3.9",' : ""}
+    ${websocket ? '"@nestjs/websockets": "^10.3.9",' : ""}
     "bcrypt": "^5.1.1",
     "chalk": "^5.3.0",
     "class-transformer": "^0.5.1",
@@ -93,8 +92,13 @@ export const generatePackageJson = (data) => {
     "@types/sequelize": "^4.28.19",
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^9.0.7",
+    "@types/bcrypt": "^5.0.2",
+    "@types/ejs": "^3.1.5",
+    "@types/morgan": "^1.9.9",
+    "@types/nodemailer": "^6.4.14",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    ${websocket ? '"socket.io-client": "^4.7.5",' : ""}
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
