@@ -31,7 +31,7 @@ export class ${name}Service {
     offset?: number;
     order?: OrderItem[];
     attributes?: string[];
-  }):Promise<PaginatedDto<${name}> {
+  }):Promise<PaginatedDto<${name}>> {
     return await this.${lowerCaseName}Repository.findAndCountAll(options);
   }
 
