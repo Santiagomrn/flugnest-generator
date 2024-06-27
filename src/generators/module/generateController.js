@@ -27,6 +27,7 @@ export const generateController = (opts) => {
   ParseIntPipe,
   Query,
   HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { ${name}Service } from './${lowerCaseName}.service';
 import { Create${name}Dto } from './dto/create-${lowerCaseName}.dto';
@@ -127,7 +128,7 @@ export class ${name}Controller {
 
   @ApiOperation({ summary: 'Delete ${name} entry by id' })
   @ApiCommonResponses()
-  @HttpCode(204)
+  @HttpCode(HttpStatus.NO_CONTENT)
   ${belongsUser ? belongsUserOwnerTemplate : ""}
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
