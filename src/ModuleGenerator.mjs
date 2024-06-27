@@ -244,13 +244,23 @@ export class ModuleGenerator extends Generator {
   }
 
   async end() {
-    const spawnConfig = { cwd: this.destinationPath, shell: true, stdio: "ignore" };
-    const spinner = ora(chalk.green("Formatting Files ...")).start();
-    await promiseSpawn("npm", ["run", "format"], spawnConfig);
-    spinner.succeed();
-
+    try {
+      const spawnConfig = { cwd: this.destinationPath, shell: true, stdio: "ignore" };
+      const spinner = ora(chalk.green("Formatting Files ...")).start();
+      await promiseSpawn("npm", ["run", "format"], spawnConfig);
+      spinner.succeed();
+    } catch (error) {
+      console.log(error);
+    }
     const content = `${chalk.green("Your module is ready!")}
 Don´t forget register you new ${this.moduleName} module into the app.module file.
+
+${chalk.blue(`@Module({
+  imports: [DatabaseModule, EmailModule, UserModule, AuthModule, NoteModule, ${this.moduleName}Module], // your new module
+  controllers: [AppController],
+  providers: [AppService],
+})`)}
+
     `;
     const msg = boxen(content, { padding: 1, borderStyle: "round" });
     console.log(msg);
