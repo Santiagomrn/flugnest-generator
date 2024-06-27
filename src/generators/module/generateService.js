@@ -15,6 +15,7 @@ import { Update${name}Dto } from './dto/update-${lowerCaseName}.dto';
 import { ${name}Repository } from './${lowerCaseName}.repository';
 import { IncludeOptions, OrderItem, WhereOptions } from 'sequelize';
 import { ${name} } from './entities/${lowerCaseName}.entity';
+import { PaginatedDto } from '@common/dto/paginated.dto';
 
 @Injectable()
 export class ${name}Service {
@@ -30,8 +31,8 @@ export class ${name}Service {
     offset?: number;
     order?: OrderItem[];
     attributes?: string[];
-  }) {
-    return await this.${lowerCaseName}Repository.findAll(options);
+  }):Promise<PaginatedDto<${name}> {
+    return await this.${lowerCaseName}Repository.findAndCountAll(options);
   }
 
   async findOne(id: number, include?: IncludeOptions[], attributes?: string[]) {
