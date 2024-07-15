@@ -32,6 +32,7 @@ export class ModuleGenerator extends Generator {
   destinationPath;
   originPath;
   responses;
+  lowerCaseModuleName;
   constructor(projectName) {
     super();
     this.appName = _.kebabCase(projectName);
@@ -92,11 +93,11 @@ export class ModuleGenerator extends Generator {
     responses.moduleName =
       responses.moduleName.charAt(0).toUpperCase() + responses.moduleName.slice(1);
     this.moduleName = responses.moduleName;
-    const lowerCaseModuleName = responses.moduleName.toLowerCase();
+    this.lowerCaseModuleName = responses.moduleName.toLowerCase();
     this.responses = responses;
     this.originPath = __dirname + "/generators/module";
     const MODULES_DIR = path.join(process.cwd(), "/src/modules");
-    const MODULE_DIR = path.join(MODULES_DIR, "/" + lowerCaseModuleName);
+    const MODULE_DIR = path.join(MODULES_DIR, "/" + this.lowerCaseModuleName);
     this.destinationPath = MODULE_DIR;
     const options = {
       controller: responses.files.includes("Controller"),
@@ -211,11 +212,7 @@ export class ModuleGenerator extends Generator {
       belongsUser: data.belongsUser,
     });
 
-    await this.saveFile(
-      TESTS_DIR,
-      data.moduleName.toLowerCase() + ".factories.ts",
-      factoryTemplate,
-    );
+    await this.saveFile(TESTS_DIR, "factories.ts", factoryTemplate);
 
     await this.saveFile(
       TESTS_DIR,
@@ -244,13 +241,18 @@ export class ModuleGenerator extends Generator {
   }
 
   async end() {
+    const spinner = ora(chalk.green("Formatting Files ...")).start();
     try {
       const spawnConfig = { cwd: this.destinationPath, shell: true, stdio: "ignore" };
-      const spinner = ora(chalk.green("Formatting Files ...")).start();
-      await promiseSpawn("npm", ["run", "format"], spawnConfig);
-      spinner.succeed();
+      await promiseSpawn(
+        "npm",
+        ["run", "format:path", "--", "src/modules/" + this.lowerCaseModuleName + "/**/*.ts"],
+        spawnConfig,
+      );
     } catch (error) {
       console.log(error);
+    } finally {
+      spinner.succeed();
     }
     const content = `${chalk.green("Your module is ready!")}
 Don´t forget register you new ${this.moduleName} module into the app.module file.
