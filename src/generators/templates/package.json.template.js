@@ -16,6 +16,7 @@ export const generatePackageJson = (data) => {
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \\"src/**/*.ts\\"",
+    "format:path": "prettier --write",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
