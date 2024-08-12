@@ -38,7 +38,7 @@ export const generatePackageJson = (data) => {
     "commit": "commit"
   },
   "dependencies": {
-    "@azure/service-bus": "^7.9.4",
+    ${serviceBus ? '"@azure/service-bus": "^7.9.4",' : ""}
     "@faker-js/faker": "^8.4.1",
     "@nestjs/common": "^10.0.4",
     "@nestjs/core": "^10.0.0",
@@ -51,7 +51,6 @@ export const generatePackageJson = (data) => {
     ${websocket ? '"@nestjs/platform-socket.io": "^10.3.9",' : ""}
     ${websocket ? '"@nestjs/websockets": "^10.3.9",' : ""}
     "bcrypt": "^5.1.1",
-    "chalk": "^5.3.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "commander": "^11.1.0",
