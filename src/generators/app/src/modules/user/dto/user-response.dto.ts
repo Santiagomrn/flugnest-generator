@@ -1,4 +1,4 @@
-import { Plain } from '@libraries/BaseModel';
+import { Plain } from '@libraries/BaseModel.entity';
 import { Exclude, Expose, plainToClass } from 'class-transformer';
 import { AuthType, User } from '../entities/user.entity';
 import { Role } from '@modules/role/entities/role.entity';
