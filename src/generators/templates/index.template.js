@@ -147,6 +147,9 @@ ${serviceBus ? serviceBusEnv : ""}
         clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'use your own credentials',
       },
     },
+    oauth: {
+      redirect: process.env.OAUTH_REDIRECT,
+    },
     test: {
       db: {
         database: process.env.TEST_DB_NAME || 'sqlite_db',
