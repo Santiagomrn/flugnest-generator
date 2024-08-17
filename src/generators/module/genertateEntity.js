@@ -31,7 +31,7 @@ export const generateEntity = (opts) => {
       : ""
   }
 } from 'sequelize-typescript';
-import { BaseModel } from '@libraries/BaseModel';
+import { BaseModel } from '@libraries/baseModel.entity';
 ${
   belongsUser
     ? `import { User } from 'src/modules/user/entities/user.entity';

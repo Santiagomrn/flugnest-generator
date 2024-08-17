@@ -13,9 +13,10 @@ export const generateService = (opts) => {
 import { Create${name}Dto } from './dto/create-${lowerCaseName}.dto';
 import { Update${name}Dto } from './dto/update-${lowerCaseName}.dto';
 import { ${name}Repository } from './${lowerCaseName}.repository';
-import { IncludeOptions, OrderItem, WhereOptions } from 'sequelize';
+import { IncludeOptions, OrderItem } from 'sequelize';
 import { ${name} } from './entities/${lowerCaseName}.entity';
 import { PaginatedDto } from '@common/dto/paginated.dto';
+import { ArrayWhereOptions } from '@libraries/baseModel.entity';
 
 @Injectable()
 export class ${name}Service {
@@ -26,7 +27,7 @@ export class ${name}Service {
 
   async findAll(options?: {
     include?: IncludeOptions[];
-    where?: WhereOptions<${name}>;
+    where?: ArrayWhereOptions<${name}>;
     limit?: number;
     offset?: number;
     order?: OrderItem[];
