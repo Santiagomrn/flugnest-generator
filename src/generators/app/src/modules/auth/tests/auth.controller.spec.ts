@@ -130,8 +130,8 @@ describe('Auth Controller', () => {
     expect(await controller.googleAuthRedirect(federatedUserDto)).toStrictEqual(
       {
         url:
-          config.oauth.redirect +
-          `oauth/?token=${credentials.token}&refreshToken=${credentials.refreshToken}`,
+          config.oauth.successful.redirect +
+          `?token=${credentials.token}&refreshToken=${credentials.refreshToken}`,
         statusCode: HttpStatus.FOUND,
       },
     );

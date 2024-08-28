@@ -24,12 +24,13 @@
       "@modules/*": ["src/modules/*"],
       "@libraries/*": ["src/libraries/*"],
       "@config/*": ["src/config/*"],
-      "@decorators/*":["src/common/decorators/*"],
-      "@core/*":["src/core/*"],
-      "@swagger/*":["src/core/swagger/*"],
+      "@decorators/*": ["src/common/decorators/*"],
+      "@core/*": ["src/core/*"],
+      "@swagger/*": ["src/core/swagger/*"],
       "@pipes/*": ["src/common/pipes/*"],
       "@interceptors/*": ["src/common/interceptors/*"],
-      "@common/dto*":["src/common/dto/*"]
+      "@common/dto*": ["src/common/dto/*"],
+      "@exceptions/*": ["src/common/exceptions/*"],
   }
   },
   "include": [

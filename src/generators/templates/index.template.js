@@ -148,7 +148,12 @@ ${serviceBus ? serviceBusEnv : ""}
       },
     },
     oauth: {
-      redirect: process.env.OAUTH_REDIRECT,
+      successful: {
+        redirect: process.env.OAUTH_SUCCESSFUL_REDIRECT,
+      },
+      fail: {
+        redirect: process.env.OAUTH_FAIL_REDIRECT,
+      },
     },
     test: {
       db: {
