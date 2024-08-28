@@ -30,13 +30,13 @@
       "@pipes/*": ["src/common/pipes/*"],
       "@interceptors/*": ["src/common/interceptors/*"],
       "@common/dto*": ["src/common/dto/*"],
-      "@exceptions/*": ["src/common/exceptions/*"],
-  }
+      "@exceptions/*": ["src/common/exceptions/*"]
+    }
   },
   "include": [
     "src/**/*",
     "src/**/*.json",
-    "src/**/*.ejs", 
+    "src/**/*.ejs",
     "jest.config.ts",
     "jest-e2e.config.ts"
   ]
