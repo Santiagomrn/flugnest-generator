@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import _ from 'lodash';
 import { Op } from 'sequelize';
+import queryString from 'node:querystring';
 
 const OPERATOR_ALIASES = {
   $eq: Op.eq,
@@ -37,9 +38,9 @@ const OPERATOR_ALIASES = {
 @Injectable()
 export class ParseWherePipe implements PipeTransform {
   private logger: Logger = new Logger(ParseWherePipe.name);
-  transform(value: string, metadata: ArgumentMetadata) {
+  transform(value: string | ArrayWhereOptions[], metadata: ArgumentMetadata) {
+    if (Array.isArray(value)) return value;
     const whereValue = value ?? '[]';
-    if (Array.isArray(whereValue)) return whereValue;
     try {
       return ParseWherePipe.parseWhereString(whereValue) as ArrayWhereOptions;
     } catch (e) {
@@ -51,7 +52,13 @@ export class ParseWherePipe implements PipeTransform {
       );
     }
   }
-  static parseWhereString(whereValue: string) {
+  static parseWhereString(undecodedWhereValue: string) {
+    let { whereValue } = queryString.decode(
+      'whereValue=' + undecodedWhereValue,
+    );
+    if (!_.isString(whereValue)) return [];
+    whereValue = whereValue.replace(/:"%\$/g, ':"%');
+
     let where: object[] = JSON.parse(whereValue);
     if (!_.isArray(where)) {
       where = [];
@@ -59,7 +66,7 @@ export class ParseWherePipe implements PipeTransform {
     // Omit any undefined values
     where = where.filter((p) => p != undefined);
     const sanitizedWhere = ParseWherePipe.sanitizeWhere(where);
-    return sanitizedWhere;
+    return sanitizedWhere as ArrayWhereOptions;
   }
   static sanitizeWhere(where: any): object[] {
     const recursiveParse = (obj: any) => {
