@@ -106,6 +106,9 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       transform: true,
+      transformOptions: {
+        exposeDefaultValues: true,
+      },
       validateCustomDecorators: true, //https://docs.nestjs.com/custom-decorators
     }),
   );
