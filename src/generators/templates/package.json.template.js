@@ -9,7 +9,7 @@ export const generatePackageJson = (data) => {
   const template = `{
   "name": "${name}",
   "version": "0.0.1",
-  "description": "",
+  "description": "Flugnest project",
   "author": "${author}",
   "private": true,
   "license": "UNLICENSED",
