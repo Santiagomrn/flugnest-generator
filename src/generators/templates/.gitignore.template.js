@@ -1,4 +1,5 @@
-# compiled output
+export const generateGitignore = (data) => {
+  return `# compiled output
 /dist
 /node_modules
 
@@ -34,3 +35,5 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+`;
+};

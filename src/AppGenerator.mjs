@@ -16,6 +16,7 @@ import ora from "ora";
 import promiseSpawn from "@npmcli/promise-spawn";
 import { generateAppModule } from "./generators/templates/app.module.template.js";
 import { generateMain } from "./generators/templates/main.template.js";
+import { generateGitignore } from "./generators/templates/.gitignore.template.js";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -103,6 +104,7 @@ export class AppGenerator extends Generator {
         this.copyIndex(responses),
         this.copyAppModule(responses),
         this.copyMain(responses),
+        this.copyGitIgnore(responses),
       ]);
       await this.install();
       await this.end();
@@ -138,6 +140,10 @@ export class AppGenerator extends Generator {
   async copyDockerComposeEnv(data) {
     const template = generateDockerComposeEnv(data);
     await this.saveFile(this.destinationPath, "docker-compose.env", template);
+  }
+  async copyGitIgnore(data) {
+    const template = generateGitignore(data);
+    await this.saveFile(this.destinationPath, ".gitignore", template);
   }
   async copyIndex(data) {
     const template = generateIndex(data);
